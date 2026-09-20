@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.annotations.EmployeeAgeValidation;
 import com.example.demo.annotations.EmployeeRoleValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
@@ -27,8 +28,7 @@ public class EmployeeDTO {
     private String email;
 
     @NotNull(message = "Age of the employee cannot be blank")
-    @Max(value = 80, message = "Age of Employee cannot be greater than 80")
-    @Min(value = 18, message = "Age of Employee cannot be less than 18")
+    @EmployeeAgeValidation
     private Integer age;
 
     @NotBlank(message = "Role of the employee cannot be blank")
