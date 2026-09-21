@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,5 +43,11 @@ public class DepartmentController {
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(departmentDTO);
     }
+
+    @GetMapping
+    public ResponseEntity<List<DepartmentDTO>> getAllDepartments(){
+        return ResponseEntity.ok(departmentService.getAllDepartments());
+    }
+
 
 }

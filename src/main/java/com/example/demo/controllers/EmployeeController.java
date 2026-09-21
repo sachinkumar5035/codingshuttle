@@ -63,6 +63,15 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDTO);
     }
 
+    @GetMapping("/age")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeeOrderByAge(){
+        List<EmployeeDTO> employeeDTOS = employeeService.getEmployeeOrderByAge();
+        if(employeeDTOS == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(employeeDTOS);
+    }
+
+
 }
 
 

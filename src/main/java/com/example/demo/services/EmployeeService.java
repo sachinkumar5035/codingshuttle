@@ -78,6 +78,15 @@ public class EmployeeService {
         });
         return modelMapper.map(employeeRepository.save(employeeEntity), EmployeeDTO.class);
     }
+
+    public List<EmployeeDTO> getEmployeeOrderByAge() {
+
+        List<EmployeeEntity> employeeEntities = employeeRepository.findByOrderByAge();
+
+        return employeeEntities.stream()
+                .map(employeeEntity -> modelMapper.map(employeeEntity,EmployeeDTO.class))
+                .collect(Collectors.toList());
+    }
 }
 
 
