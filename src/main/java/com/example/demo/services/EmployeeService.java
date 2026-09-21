@@ -5,8 +5,11 @@ import com.example.demo.entities.EmployeeEntity;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.util.ReflectionUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -97,6 +100,13 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    public List<EmployeeDTO> findAllByPagination(String sortBy, Pageable pageable) {
+
+        List<EmployeeEntity> employeeEntities= employeeRepository.findAll(pageable).getContent();
+        return employeeEntities.stream()
+                .map(employeeEntity -> modelMapper.map(employeeEntity,EmployeeDTO.class))
+                .collect(Collectors.toList());
+    }
 }
 
 

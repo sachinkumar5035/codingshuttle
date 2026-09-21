@@ -4,6 +4,9 @@ import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.services.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/employees")
 public class EmployeeController {
+
+    private final int PAGE_SIZE=5;
 
     private final EmployeeService employeeService;
 
@@ -78,6 +83,13 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDTO>> getEmployeeSortByField(@RequestParam(defaultValue = "id") String sortBy){
 //        return ResponseEntity.ok(employeeService.getEmployeeSortByField(Sort.by(sortBy))); // asc order sorting
         return ResponseEntity.ok(employeeService.getEmployeeSortByField(Sort.by(Sort.Direction.DESC,sortBy))); // desc order sorting
+    }
+
+//    pagination
+    @GetMapping("/pages")
+    public ResponseEntity<List<EmployeeDTO>> getEmployee(@RequestParam(defaultValue = "") String sortBy, @RequestParam(defaultValue = "0") Integer pageNumber){
+        Pageable pageable = PageRequest.of(pageNumber,PAGE_SIZE);
+        return ResponseEntity.ok(employeeService.findAllByPagination(sortBy,pageable));
     }
 
 }
