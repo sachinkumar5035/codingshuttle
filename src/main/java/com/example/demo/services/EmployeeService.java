@@ -5,6 +5,7 @@ import com.example.demo.entities.EmployeeEntity;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
@@ -87,6 +88,15 @@ public class EmployeeService {
                 .map(employeeEntity -> modelMapper.map(employeeEntity,EmployeeDTO.class))
                 .collect(Collectors.toList());
     }
+
+
+    public List<EmployeeDTO> getEmployeeSortByField(Sort sortBy){
+        List<EmployeeEntity> employeeEntities = employeeRepository.findBy(sortBy);
+        return employeeEntities.stream()
+                .map(employeeEntity -> modelMapper.map(employeeEntity,EmployeeDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }
 
 

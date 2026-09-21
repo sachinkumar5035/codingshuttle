@@ -4,6 +4,7 @@ import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.services.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,13 +65,20 @@ public class EmployeeController {
     }
 
     @GetMapping("/age")
-    public ResponseEntity<List<EmployeeDTO>> getEmployeeOrderByAge(){
+    public ResponseEntity<List<EmployeeDTO>> getEmployeeOrderByAge(){ // sort by age
         List<EmployeeDTO> employeeDTOS = employeeService.getEmployeeOrderByAge();
         if(employeeDTOS == null)
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(employeeDTOS);
     }
 
+
+    // sort by the given field
+    @GetMapping("/sortby")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeeSortByField(@RequestParam(defaultValue = "id") String sortBy){
+//        return ResponseEntity.ok(employeeService.getEmployeeSortByField(Sort.by(sortBy))); // asc order sorting
+        return ResponseEntity.ok(employeeService.getEmployeeSortByField(Sort.by(Sort.Direction.DESC,sortBy))); // desc order sorting
+    }
 
 }
 
