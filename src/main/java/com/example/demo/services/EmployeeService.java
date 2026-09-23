@@ -6,6 +6,7 @@ import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.util.ReflectionUtils;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
+    private final int PAGE_SIZE=5;
 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
@@ -100,8 +102,8 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    public List<EmployeeDTO> findAllByPagination(String sortBy, Pageable pageable) {
-
+    public List<EmployeeDTO> findAllByPagination(String sortBy, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber,PAGE_SIZE,Sort.by(sortBy));
         List<EmployeeEntity> employeeEntities= employeeRepository.findAll(pageable).getContent();
         return employeeEntities.stream()
                 .map(employeeEntity -> modelMapper.map(employeeEntity,EmployeeDTO.class))

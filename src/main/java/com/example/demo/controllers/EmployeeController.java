@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequestMapping(path = "/employees")
 public class EmployeeController {
 
-    private final int PAGE_SIZE=5;
+
 
     private final EmployeeService employeeService;
 
@@ -88,8 +88,7 @@ public class EmployeeController {
 //    pagination
     @GetMapping("/pages")
     public ResponseEntity<List<EmployeeDTO>> getEmployee(@RequestParam(defaultValue = "") String sortBy, @RequestParam(defaultValue = "0") Integer pageNumber){
-        Pageable pageable = PageRequest.of(pageNumber,PAGE_SIZE);
-        return ResponseEntity.ok(employeeService.findAllByPagination(sortBy,pageable));
+        return ResponseEntity.ok(employeeService.findAllByPagination(sortBy,pageNumber));
     }
 
 }
